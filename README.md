@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Project Management Site
 
 A simple full‑stack project management web application.
@@ -67,3 +68,6 @@ npx serve .   # installs a temporary static server
 
 ## License
 This project is open source and available under the MIT License.
+=======
+# TaskFlowHub
+>>>>>>> 60c108c2b6b4ab6677caf5501c4b64dfa5568a15
