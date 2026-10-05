@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TaskFlow-Hub</title>
+    <link rel="stylesheet" href="../assets/css/Welcome.css" />
+</head>
+<body>
+    <div class="auth-card">
+        <!-- Lado esquerdo -->
+        <section class="auth-left">
+            <h1>TaskFlow Hub </h1>
+            <h2>Transforme ideias em execução.</h2>
+            <p class="subtitle">O nosso ecossistema de gestão foi desenvolvido para quem procura foco, clareza e eficiência. Organize os seus projetos em andamento, 
+                acompanhe históricos e gira o seu fluxo de trabalho através de uma experiência visual fluida,  minimalista e adaptada às suas necessidades.</p>
+        </section>
+
+        <!-- Lado direito -->
+        <section class="auth-right">
+            <div class="pill-toggle" id="pillToggle">
+                <button id="toggleRegister" class="active">Registrar</button>
+                <button id="toggleLogin">Entrar</button>
+            </div>
+
+            <!-- Formulário de registo -->
+            <form id="registerForm" class="auth-form">
+                <div class="form-group"><label for="fullName">Nome Completo</label><input type="text" id="fullName" name="fullName" required /></div>
+                <div class="form-group"><label for="regUsername">Username</label><input type="text" id="regUsername" name="regUsername" required /></div>
+                <div class="form-group"><label for="regEmail">E‑mail</label><input type="email" id="regEmail" name="regEmail" required /></div>
+                <div class="form-group"><label for="regPassword">Senha</label><input type="password" id="regPassword" name="regPassword" minlength="6" required /></div>
+                <div class="form-group"><label for="regPasswordConfirm">Repetir Senha</label><input type="password" id="regPasswordConfirm" name="regPasswordConfirm" minlength="6" required /></div>
+                <div class="form-group">
+                    <label for="regLocale">Idioma</label>
+                    <select id="regLocale" name="regLocale" required>
+                        <option value="pt-BR">Português – Brasil</option>
+                        <option value="es-ES">Español</option>
+                        <option value="en-US">English</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary">Criar Conta</button>
+            </form>
+
+            <!-- Formulário de login -->
+            <form id="loginForm" class="auth-form" style="display:none;">
+                <div class="form-group"><label for="loginUsername">Username</label><input type="text" id="loginUsername" name="loginUsername" required /></div>
+                <div class="form-group"><label for="loginPassword">Senha</label><input type="password" id="loginPassword" name="loginPassword" required /></div>
+                
+                <div class="form-actions-link">
+                    <a href="#" id="linkForgotPassword" class="forgot-link">Esqueceu a senha?</a>
+                </div>
+
+                <button type="submit" class="btn-primary">Acessar</button>
+            </form>
+
+            <!-- Formulário de Esqueci a Senha (oculto inicialmente) -->
+            <form id="forgotPasswordForm" class="auth-form" style="display:none;">
+                <p class="form-description">Informe o seu e-mail cadastrado para receber as instruções de redefinição de senha.</p>
+                <div class="form-group"><label for="forgotEmail">E‑mail</label><input type="email" id="forgotEmail" name="forgotEmail" required /></div>
+                <button type="submit" class="btn-primary">Enviar Link de Recuperação</button>
+                
+                <div class="form-actions-link" style="text-align: center; margin-top: 1rem;">
+                    <a href="#" id="linkBackToLogin" class="forgot-link">Voltar para o Login</a>
+                </div>
+            </form>
+        </section>
+    </div>
+
+    <div id="mensagemFeeback"></div>
+
+    <script src="../assets/js/Welcome.js" defer></script>
+</body>
+</html>
