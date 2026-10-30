@@ -3,6 +3,8 @@
  * Gerencia a máquina de estados entre Login, Registro e Esqueci a Senha,
  * além do controle visual das abas e prevenção de envio padrão dos formulários.
  */
+const API_BASE_URL = 'http://localhost:3000/api';
+
 function initAuth() {
   const tabsContainer = document.getElementById('tabs-container');
   const tabLogin = document.getElementById('tab-login');
@@ -82,4 +84,42 @@ function initAuth() {
       console.log('Formulário submetido com sucesso via JS.');
     });
   });
+
+  const form = document.getElementById("form-register");
+  const inpNome = document.getElementById("register-name");
+  const inpEmail = document.getElementById("register-email");
+  const inpPassword = document.getElementById("register-password");
+
+  if (form && inpNome && inpEmail && inpPassword) {
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const dados = {
+        nameUser: inpNome.value,
+        emailUser: inpEmail.value,
+        passwordUser: inpPassword.value
+      };
+
+      try {
+        const resposta = await fetch(`${API_BASE_URL}/usuarios`, {
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/json'
+          },
+          body: JSON.stringify(dados)
+        });
+
+        const resultado = await resposta.json();
+
+        if (resposta.ok) {
+          alert(resultado.mensagem);
+          form.reset();
+        } else {
+          alert(resultado.erro);
+        }
+      } catch (error) {
+        console.error("Erro ao enviar dados", error);
+      }
+    });
+  }
 }
