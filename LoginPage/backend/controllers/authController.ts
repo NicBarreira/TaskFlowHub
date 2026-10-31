@@ -82,6 +82,7 @@ export const loginUser = async (req: Request, res: Response) => {
     }
 
     return res.json({
+      
       mensagem: 'Login realizado com sucesso!',
       usuarios: {
         id: usuario.id,

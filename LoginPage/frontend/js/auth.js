@@ -17,6 +17,8 @@ function initAuth() {
   const btnGotoForgot = document.getElementById('btn-goto-forgot');
   const btnBackToLogin = document.getElementById('btn-back-to-login');
 
+
+
   if (!tabsContainer || !tabLogin || !tabRegister) return;
 
   const activeTabClasses = ['bg-zinc-800', 'text-zinc-100', 'shadow-sm', 'border', 'border-zinc-700/40'];
@@ -76,23 +78,55 @@ function initAuth() {
   btnGotoForgot?.addEventListener('click', () => switchState('forgot'));
   btnBackToLogin?.addEventListener('click', () => switchState('login'));
 
-  // Previne recarregamento ao submeter os formulários
-  const forms = document.querySelectorAll('form');
-  forms.forEach((form) => {
-    form.addEventListener('submit', (event) => {
-      event.preventDefault();
-      console.log('Formulário submetido com sucesso via JS.');
-    });
-  });
+  const loginForm = document.getElementById('form-login');
+  const loginEmail = document.getElementById('login-email');
+  const loginPassword = document.getElementById('login-password');
 
-  const form = document.getElementById("form-register");
+  if (loginForm && loginEmail && loginPassword) {
+    loginForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      try {
+        const resposta = await fetch(`${API_BASE_URL}/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            emailUser: loginEmail.value,
+            passwordUser: loginPassword.value
+          })
+        });
+        const resultado = await resposta.json();
+
+        if (!resposta.ok) {
+          alert(resultado.erro || 'Não foi possível entrar.');
+          return;
+        }
+
+        window.location.href = '/MainHub/frontend/index.html'
+      } catch (error) {
+        console.error('Erro ao entrar', error);
+        alert('Não foi possível conectar ao servidor. Tente novamente.');
+      }
+    });
+  }
+
+  const form = document.getElementById('form-register');
   const inpNome = document.getElementById("register-name");
   const inpEmail = document.getElementById("register-email");
   const inpPassword = document.getElementById("register-password");
+  const inpConfirmPassword = document.getElementById('register-confirm-password');
 
-  if (form && inpNome && inpEmail && inpPassword) {
+
+
+  if (form && inpNome && inpEmail && inpPassword && inpConfirmPassword) {
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
+
+      if (inpPassword.value !== inpConfirmPassword.value) {
+        alert('As senhas não coincidem.');
+        inpConfirmPassword.focus();
+        return;
+      }
 
       const dados = {
         nameUser: inpNome.value,
@@ -119,7 +153,58 @@ function initAuth() {
         }
       } catch (error) {
         console.error("Erro ao enviar dados", error);
+        alert('Não foi possível conectar ao servidor. Tente novamente.');
       }
     });
   }
+
+  document.querySelector('#state-forgot form')?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    alert('A recuperação de senha ainda não está disponível.');
+  });
+  
+  const togglePasswordBtn = document.getElementById("btn-toggle-login-password");
+  const inpPasswordLogin = document.getElementById("login-password");
+  const eyeOpen = document.getElementById("eye-open-login")
+  const eyeClosed = document.getElementById("eye-closed-login");
+
+  if(togglePasswordBtn && inpPasswordLogin && eyeOpen && eyeClosed)  {
+    togglePasswordBtn.addEventListener('click', () => {
+      inpPasswordLogin.type = inpPasswordLogin.type === 'password' ? 'text' : 'password';
+
+      eyeOpen.classList.toggle('hidden');
+      eyeClosed.classList.toggle('hidden');
+    })
+  }
+
+  const btnToggleRegister = document.getElementById("btn-toggle-register-password");
+  
+  const eyeOpenRegister = document.getElementById("eye-open-register");
+  const eyeClosedRegister = document.getElementById("eye-closed-register");
+
+  if (btnToggleRegister && inpPassword && eyeOpenRegister && eyeClosedRegister) {
+    btnToggleRegister.addEventListener('click', () => {
+      // Alterna a senha
+      inpPassword.type = inpPassword.type === 'password' ? 'text' : 'password';
+      
+      // Alterna os ícones
+      eyeOpenRegister.classList.toggle('hidden');
+      eyeClosedRegister.classList.toggle('hidden');
+    });
+  }
+
+  const btnToggleRegisterConirm = document.getElementById("btn-toggle-register-password-confirm");
+  
+  const eyeOpenRegisterConfirmPassword = document.getElementById("eye-open-register-confirm-password");
+  const eyeClosedRegisterConfirmPassword = document.getElementById("eye-closed-register-confirm-password");
+
+  if(btnToggleRegisterConirm && inpConfirmPassword && eyeOpenRegisterConfirmPassword && eyeClosedRegisterConfirmPassword) {
+    btnToggleRegisterConirm.addEventListener('click', () => {
+      inpConfirmPassword.type = inpConfirmPassword.type === 'password' ? 'text' : 'password';
+
+      eyeOpenRegisterConfirmPassword.classList.toggle('hidden');
+      eyeClosedRegisterConfirmPassword.classList.toggle('hidden');
+    })
+  }
+
 }
