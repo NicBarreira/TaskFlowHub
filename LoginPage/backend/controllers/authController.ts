@@ -2,6 +2,7 @@ import type { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import { pool } from '../config/db.js';
 import { sendRecoveryCodeEmail } from '../service/mailService.js'; 
+import jwt from 'jsonwebtoken';
 
 export const registerUser = async (req: Request, res: Response) => {
   const { nameUser, emailUser, passwordUser } = req.body;
@@ -89,9 +90,17 @@ export const loginUser = async (req: Request, res: Response) => {
       });
     }
 
+    const token = jwt.sign(
+      { id: usuario.id, email: usuario.emailUser },
+      process.env.JWT_SECRET as string,
+      { expiresIn: '8h' }
+    );
+
+
     return res.json({
       
       mensagem: 'Login realizado com sucesso!',
+      token,
       usuarios: {
         id: usuario.id,
         nameUser: usuario.nameUser,
@@ -252,3 +261,6 @@ export const resetPassword = async (req: Request, res: Response) => {
     });
   }
 };
+
+
+

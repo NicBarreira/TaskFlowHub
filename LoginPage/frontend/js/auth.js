@@ -296,6 +296,12 @@ function initAuth() {
           return;
         }
 
+        // Salva o token JWT e dados do usuário no localStorage
+        if (resultado.token) {
+          localStorage.setItem('taskflow_token', resultado.token);
+          localStorage.setItem('taskflow_user', JSON.stringify(resultado.usuarios));
+        }
+
         window.location.href = '/MainHub/frontend/index.html';
       } catch (error) {
         console.error('Erro ao entrar:', error);
